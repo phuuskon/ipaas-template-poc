@@ -22,4 +22,4 @@ jobs:
         with:
           subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
           resourceGroupName: ${{ secrets.AZURE_RG }}
-          template: ./ipaas-infra.json
+          template: bicep-files/ipaas-infra.json
