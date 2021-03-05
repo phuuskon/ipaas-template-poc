@@ -34,4 +34,4 @@ stages :
               addSpnToEnvironment: true
               inlineScript: |
                 #!/bin/bash
-                az deployment group create -f $(System.DefaultWorkingDirectory)/bicep-files/bicep-infra.json -g rg-bicep-poc
+                az deployment group create -f $(System.DefaultWorkingDirectory)/bicep-files/ipaas-infra.json -g rg-bicep-poc
