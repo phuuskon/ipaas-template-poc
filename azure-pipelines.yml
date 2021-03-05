@@ -23,15 +23,15 @@ stages :
               script: |
                 curl -Lo bicep https://github.com/Azure/bicep/releases/latest/download/bicep-linux-x64
                 chmod +x ./bicep
-                ./bicep build $(System.DefaultWorkingDirectory)/BicepFiles/main.bicep
+                ./bicep build $(System.DefaultWorkingDirectory)/bicep-files/ipaas-infra.bicep
  
           - task: AzureCLI@2
             displayName: 'Deploy Bicep Configuration'
             inputs:
-              azureSubscription: 'sp-bicep-poc'
+              azureSubscription: 'sp-bicep-deploy'
               scriptType: bash
               scriptLocation: inlineScript
               addSpnToEnvironment: true
               inlineScript: |
                 #!/bin/bash
-                az deployment group create -f $(System.DefaultWorkingDirectory)/BicepFiles/main.json -g rg-bicep-poc
+                az deployment group create -f $(System.DefaultWorkingDirectory)/bicep-files/bicep-infra.json -g rg-bicep-poc
