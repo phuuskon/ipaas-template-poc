@@ -26,6 +26,17 @@ stages :
                 ./bicep build $(System.DefaultWorkingDirectory)/bicep-files/ipaas-infra.bicep
  
           - task: AzureCLI@2
+            displayName: 'Validate Bicep Configuration'
+            inputs:
+              azureSubscription: 'sp-bicep-deploy'
+              scriptType: bash
+              scriptLocation: inlineScript
+              addSpnToEnvironment: true
+              inlineScript: |
+                #!/bin/bash
+                az deployment group validate -f $(System.DefaultWorkingDirectory)/bicep-files/ipaas-infra.json -g rg-bicep-poc
+
+          - task: AzureCLI@2
             displayName: 'Deploy Bicep Configuration'
             inputs:
               azureSubscription: 'sp-bicep-deploy'
