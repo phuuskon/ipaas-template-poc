@@ -35,9 +35,6 @@ resource serviceBus 'Microsoft.ServiceBus/namespaces@2017-04-01' = {
 }
 
 resource sbTopic 'Microsoft.ServiceBus/namespaces/topics@2017-04-01' = {
-  name: '01-testtopic'
-  dependsOn: [
-    serviceBus
-  ]
+  name: 'sb-elisa-ipaas-infra/01-testtopic'
 }
 
