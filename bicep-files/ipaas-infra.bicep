@@ -188,7 +188,7 @@ resource siteconfig 'Microsoft.Web/sites/config@2020-09-01' = {
 }
 
 resource sitehostname 'Microsoft.Web/sites/hostNameBindings@2020-06-01' = {
-  name: '${site_name},${site_name}/.azurewebsites.net'
+  name: '${site_name}/${site_name}.azurewebsites.net'
   dependsOn: [
     site
   ]
