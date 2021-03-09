@@ -197,3 +197,19 @@ resource sitehostname 'Microsoft.Web/sites/hostNameBindings@2020-06-01' = {
     hostNameType: 'Verified'
   }
 }
+
+resource storageConnection 'Microsoft.Web/connections@2016-06-01' = {
+  name: 'azureblob'
+  kind: 'V2'
+  location: location
+  properties: {
+    displayName: 'privatestorage'
+    parameterValues: {
+      accountName: '${sa_name}'
+      accessKey: '${listKeys(storageAccount.id, '2019-06-01').keys[0].value}'
+    }
+    api: {
+      id: '/subscriptions/${subscription().id}/providers/Microsoft.Web/locations/${location}/managedApis/azureblob'
+    }
+  }
+}
