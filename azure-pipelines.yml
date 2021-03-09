@@ -17,7 +17,7 @@ stages :
         steps:
   
           - task: Bash@3
-            displayName: 'Install Bicep'
+            displayName: 'Install Bicep and build template'
             inputs:
               targetType: inline
               script: |
@@ -26,7 +26,7 @@ stages :
                 ./bicep build $(System.DefaultWorkingDirectory)/bicep-files/ipaas-infra.bicep
  
           - task: AzureCLI@2
-            displayName: 'Validate Bicep Configuration'
+            displayName: 'Validate template'
             inputs:
               azureSubscription: 'sp-bicep-deploy'
               scriptType: bash
@@ -37,7 +37,7 @@ stages :
                 az deployment group validate -f $(System.DefaultWorkingDirectory)/bicep-files/ipaas-infra.json -g rg-bicep-poc
 
           - task: AzureCLI@2
-            displayName: 'Deploy Bicep Configuration'
+            displayName: 'Deploy template'
             inputs:
               azureSubscription: 'sp-bicep-deploy'
               scriptType: bash
@@ -46,3 +46,12 @@ stages :
               inlineScript: |
                 #!/bin/bash
                 az deployment group create -f $(System.DefaultWorkingDirectory)/bicep-files/ipaas-infra.json -g rg-bicep-poc
+
+          - task: PowerShell@2
+            displayNAme: 'Generat connections file'
+            inputs:
+              targetType: 'filePath'
+              filePath: $(System.DefaultWorkingDirectory)/scripts/generate-connections.ps1
+              arguments: >
+                -resourceGroup rg-bicep-poc
+                -outputLocation $(System.DefaultWorkingDirectory)/connections.json
