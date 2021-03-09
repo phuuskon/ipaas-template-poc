@@ -176,7 +176,7 @@ resource siteconfig 'Microsoft.Web/sites/config@2020-09-01' = {
     http20Enabled: false
     minTlsVersion: '1.2'
     ftpsState: 'AllAllowed'
-    reservedInstanceCount: 0
+    reservedInstanceCount: 1
   }
 }
 
