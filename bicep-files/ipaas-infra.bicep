@@ -116,7 +116,7 @@ resource siteconfig 'Microsoft.Web/sites/config@2020-09-01' = {
     site
   ]
   properties: {
-    numberOfWorkers: -1
+    numberOfWorkers: 1
     defaultDocuments: [
       'Default.htm'
       'Default.html'
