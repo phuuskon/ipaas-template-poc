@@ -209,7 +209,7 @@ resource storageConnection 'Microsoft.Web/connections@2016-06-01' = {
       accessKey: '${listKeys(storageAccount.id, '2019-06-01').keys[0].value}'
     }
     api: {
-      id: '/subscriptions/${subscription().id}/providers/Microsoft.Web/locations/${location}/managedApis/azureblob'
+      id: '/subscriptions/${subscription().subscriptionId}/providers/Microsoft.Web/locations/${location}/managedApis/azureblob'
     }
   }
 }
