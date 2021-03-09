@@ -63,6 +63,10 @@ resource serverFarm 'Microsoft.Web/serverfarms@2020-06-01' = {
 resource site 'Microsoft.Web/sites@2020-06-01' = {
   name: site_name
   location: location
+  dependsOn: [
+    storageAccount
+    serverFarm
+  ]
   kind: 'functionapp,workflowapp'
   identity: {
     type: 'SystemAssigned'
@@ -108,6 +112,9 @@ resource site 'Microsoft.Web/sites@2020-06-01' = {
 resource siteconfig 'Microsoft.Web/sites/config@2020-09-01' = {
   name: '${site_name}/web'
   location: location
+  dependsOn: [
+    site
+  ]
   properties: {
     numberOfWorkers: -1
     defaultDocuments: [
@@ -182,6 +189,9 @@ resource siteconfig 'Microsoft.Web/sites/config@2020-09-01' = {
 
 resource sitehostname 'Microsoft.Web/sites/hostNameBindings@2020-06-01' = {
   name: '${site_name},${site_name}/.azurewebsites.net'
+  dependsOn: [
+    site
+  ]
   properties: {
     siteName: '${site_name}'
     hostNameType: 'Verified'
