@@ -48,7 +48,7 @@ stages :
                 az deployment group create -f $(System.DefaultWorkingDirectory)/bicep-files/ipaas-infra.json -g rg-bicep-poc
 
           - task: AzurePowerShell@5
-            displayName: 'Generat connections file'
+            displayName: 'Generate connections file'
             inputs:
               azureSubscription: 'sp-bicep-deploy'
               ScriptType: FilePath
