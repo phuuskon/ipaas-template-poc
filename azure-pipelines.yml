@@ -133,7 +133,7 @@ stages :
           #    package: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
           #    deploymentMethod: 'zipDeploy'
 
-          - task: PublishBuilsArtifacts@1
+          - task: PublishBuildArtifacts@1
             inputs:
               pathToPublish: 'project_output'
               FileCopyOptions: '**/connections.json'
