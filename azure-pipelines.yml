@@ -100,9 +100,16 @@ stages :
               ScriptPath: $(System.DefaultWorkingDirectory)/scripts/generate-connections.ps1
               scriptArguments:
                 -resourceGroup rg-bicep-poc `
-                -outputLocation $(System.DefaultWorkingDirectory)/connections.json `
-                -withFunctions
+                -outputLocation $(System.DefaultWorkingDirectory)/connections.json
               azurePowerShellVersion: 'LatestVersion'
+
+          - task: Powershell@
+            displayName: 'Combine connections'
+            inputs:
+              targetType: 'inline'
+              script: |
+                $orig_connections = Get-Content logicapps/connections.json | Out-String | ConvertFrom-Json
+                Add-Content -Path connections.json -Value $orig_connections.serviceProviderConnections
 
           - task: CopyFiles@2
             displayName: 'Create project folder'
