@@ -100,7 +100,8 @@ stages :
               ScriptPath: $(System.DefaultWorkingDirectory)/scripts/generate-connections.ps1
               scriptArguments:
                 -resourceGroup rg-bicep-poc `
-                -outputLocation $(System.DefaultWorkingDirectory)/connections.json
+                -outputLocation $(System.DefaultWorkingDirectory)/connections.json `
+                -withFunctions
               azurePowerShellVersion: 'LatestVersion'
 
           - task: CopyFiles@2
