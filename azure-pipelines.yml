@@ -54,6 +54,14 @@ stages :
                 #!/bin/bash
                 az deployment group create -f $(System.DefaultWorkingDirectory)/bicep-files/ipaas-infra.json -g rg-bicep-poc
 
+          - task: ARM Outputs@6
+          displayName: 'Get infra deployment outputs'
+          inputs:
+            ConnectedServiceNameSelector: 'ConnectedServiceNameARM'
+            ConnectedServiceNameARM: 'sp-bicep-deploy'
+            resourceGroupName: 'rg-bicep-poc'
+            whenLastDeploymentIsFailed: 'fail'
+
           - task: Bash@3
             displayName: 'Build systems template'
             inputs:
@@ -71,7 +79,7 @@ stages :
               addSpnToEnvironment: true
               inlineScript: |
                 #!/bin/bash
-                az deployment group validate -f $(System.DefaultWorkingDirectory)/bicep-files/ipaas-connections.json -g rg-bicep-poc
+                az deployment group validate -f $(System.DefaultWorkingDirectory)/bicep-files/ipaas-connections.json -g rg-bicep-poc -p "{ \"logicapp_si_tenantid\": \"\${{ logicapp_si_tenantid }}\", \"logicapp_si_objectid\": \"\${{ logicapp_si_objectid }}\"  }"
 
           - task: AzureCLI@2
             displayName: 'Deploy systems template'
@@ -82,7 +90,7 @@ stages :
               addSpnToEnvironment: true
               inlineScript: |
                 #!/bin/bash
-                az deployment group create -f $(System.DefaultWorkingDirectory)/bicep-files/ipaas-connections.json -g rg-bicep-poc
+                az deployment group create -f $(System.DefaultWorkingDirectory)/bicep-files/ipaas-connections.json -g rg-bicep-poc -p "{ \"logicapp_si_tenantid\": \"\${{ logicapp_si_tenantid }}\", \"logicapp_si_objectid\": \"\${{ logicapp_si_objectid }}\"  }"
       
           - task: AzurePowerShell@5
             displayName: 'Generate connections file'
