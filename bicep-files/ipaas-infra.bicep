@@ -104,6 +104,10 @@ resource site 'Microsoft.Web/sites@2020-06-01' = {
           name: 'WEBSITE_CONTENTSHARE'
           value: 'ph-bicep-poc-app3'
         }
+        {
+          name: 'serviceBus-connectionString'
+          value: '${listKeys(resourceId('Microsoft.ServiceBus/namespaces/authorizationRules',sb_name,'RootManageSharedAccessKey'), '2015-08-01').primaryConnectionString}'
+        }
       ]
     }
   } 
