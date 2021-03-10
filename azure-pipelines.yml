@@ -131,12 +131,6 @@ stages :
               artifact: '$(logicAppCIArtifactName)'
               publishLocation: 'pipeline'
               
-          - task: PublishBuildArtifacts@1
-            inputs:
-              PathtoPublish: '$(System.DefaultWorkingDirectory)'
-              ArtifactName: 'drop'
-              publishLocation: 'Container'
-
           - task: AzureFunctionApp@1
             displayName: 'Deploy logic app workflows'
             inputs:
