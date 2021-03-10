@@ -134,18 +134,18 @@ stages :
               archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
               replaceExistingArchive: true
 
-          #- task: AzureFunctionApp@1
-          #  displayName: 'Deploy logic app workflows'
-          #  inputs:
-          #    azureSubscription: 'sp-bicep-deploy'
-          #    appType: 'functionApp'
-          #    appName: 'ph-bicep-poc-app'
-          #    package: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
-          #    deploymentMethod: 'zipDeploy'
-
-          - task: PublishBuildArtifacts@1
+          - task: AzureFunctionApp@1
+            displayName: 'Deploy logic app workflows'
             inputs:
-              pathToPublish: 'project_output'
-              FileCopyOptions: '**/connections.json'
+              azureSubscription: 'sp-bicep-deploy'
+              appType: 'functionApp'
+              appName: 'ph-bicep-poc-app'
+              package: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+              deploymentMethod: 'zipDeploy'
+
+          #- task: PublishBuildArtifacts@1
+          #  inputs:
+          #    pathToPublish: 'project_output'
+          #    FileCopyOptions: '**/connections.json'
 
           
