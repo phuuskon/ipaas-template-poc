@@ -56,17 +56,3 @@ resource servicebusConnection 'Microsoft.Web/connections@2016-06-01' = {
     }
   }
 }
-
-resource sbConnAccessPolicies 'Microsoft.Web/connections/accessPolicies@2016-06-01' = {
-  name: 'servicebus/${logicapp_si_objectid}'
-  location: location
-  properties: {
-    principal: {
-      type: 'ActiveDirectory'
-      identity: {
-        tenantId: '${logicapp_si_tenantid}'
-        objectId: '${logicapp_si_objectid}'
-      }
-    }
-  }
-}
