@@ -124,20 +124,13 @@ stages :
               archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
               replaceExistingArchive: true
 
-          - task: PublishPipelineArtifact@1
-            displayName: 'Publish project zip artifact'
-            inputs:
-              targetPath: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
-              artifact: '$(logicAppCIArtifactName)'
-              publishLocation: 'pipeline'
-              
           - task: AzureFunctionApp@1
             displayName: 'Deploy logic app workflows'
             inputs:
               azureSubscription: 'sp-bicep-deploy'
               appType: 'functionApp'
               appName: 'ph-bicep-poc-app'
-              package: '$(Pipeline.Workspace)/cipipeline/$(logicAppCIArtifactName)/$(resources.pipeline.cipipeline.runID).zip'
+              package: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
               deploymentMethod: 'zipDeploy'
 
           
