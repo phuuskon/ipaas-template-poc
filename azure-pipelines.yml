@@ -103,7 +103,7 @@ stages :
                 -outputLocation $(System.DefaultWorkingDirectory)/connections.json
               azurePowerShellVersion: 'LatestVersion'
 
-          - task: Powershell@
+          - task: Powershell@2
             displayName: 'Combine connections'
             inputs:
               targetType: 'inline'
