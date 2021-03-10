@@ -17,16 +17,23 @@ stages :
         steps:
   
           - task: Bash@3
-            displayName: 'Install Bicep and build template'
+            displayName: 'Install Bicep'
             inputs:
               targetType: inline
               script: |
                 curl -Lo bicep https://github.com/Azure/bicep/releases/latest/download/bicep-linux-x64
                 chmod +x ./bicep
+
+          - task: Bash@3
+            displayName: 'Build infra template'
+            inputs:
+              targetType: inLine
+              script: |
+                #!/bin/bash
                 ./bicep build $(System.DefaultWorkingDirectory)/bicep-files/ipaas-infra.bicep
  
           - task: AzureCLI@2
-            displayName: 'Validate template'
+            displayName: 'Validate infra template'
             inputs:
               azureSubscription: 'sp-bicep-deploy'
               scriptType: bash
@@ -37,7 +44,7 @@ stages :
                 az deployment group validate -f $(System.DefaultWorkingDirectory)/bicep-files/ipaas-infra.json -g rg-bicep-poc
 
           - task: AzureCLI@2
-            displayName: 'Deploy template'
+            displayName: 'Deploy infra template'
             inputs:
               azureSubscription: 'sp-bicep-deploy'
               scriptType: bash
@@ -47,6 +54,36 @@ stages :
                 #!/bin/bash
                 az deployment group create -f $(System.DefaultWorkingDirectory)/bicep-files/ipaas-infra.json -g rg-bicep-poc
 
+          - task: Bash@3
+            displayName: 'Build systems template'
+            inputs:
+              targetType: inLine
+              script: |
+                #!/bin/bash
+                ./bicep build $(System.DefaultWorkingDirectory)/bicep-files/ipaas-connections.bicep
+ 
+          - task: AzureCLI@2
+            displayName: 'Validate systems template'
+            inputs:
+              azureSubscription: 'sp-bicep-deploy'
+              scriptType: bash
+              scriptLocation: inlineScript
+              addSpnToEnvironment: true
+              inlineScript: |
+                #!/bin/bash
+                az deployment group validate -f $(System.DefaultWorkingDirectory)/bicep-files/ipaas-connections.json -g rg-bicep-poc
+
+          - task: AzureCLI@2
+            displayName: 'Deploy systems template'
+            inputs:
+              azureSubscription: 'sp-bicep-deploy'
+              scriptType: bash
+              scriptLocation: inlineScript
+              addSpnToEnvironment: true
+              inlineScript: |
+                #!/bin/bash
+                az deployment group create -f $(System.DefaultWorkingDirectory)/bicep-files/ipaas-connections.json -g rg-bicep-poc
+      
           - task: AzurePowerShell@5
             displayName: 'Generate connections file'
             inputs:
