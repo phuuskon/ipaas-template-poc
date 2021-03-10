@@ -109,7 +109,8 @@ stages :
               targetType: 'inline'
               script: |
                 $json = Get-Content logicapps/connections.json | Out-String | ConvertFrom-Json
-                Add-Content -Path connections.json -Value '{"serviceProviderConnections": ' + ($json.serviceProviderConnections | ConvertTo-Json -Depth 20) + '}'
+                $json2 = '{"serviceProviderConnections": ' + ($json.serviceProviderConnections | ConvertTo-Json -Depth 20) + '}'
+                Add-Content -Path ./connections.json -Value $json2
 
           - task: CopyFiles@2
             displayName: 'Create project folder'
