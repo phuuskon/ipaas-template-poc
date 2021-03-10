@@ -111,7 +111,7 @@ stages :
                 $json_orig = Get-Content logicapps/connections.json | Out-String | ConvertFrom-Json
                 $json_new = Get-Content connections.json | Out-String | ConvertFrom-Json
                 $json_new | add-member -Name 'serviceProviderConnections' -value $json_orig.serviceProviderConnections -MemberType NoteProperty
-                Set-Content -Path ./connections.json -Value $json_new
+                Set-Content -Path ./connections.json -Value ($json_new | ConvertTo-Json -Depth 100)
 
           - task: CopyFiles@2
             displayName: 'Create project folder'
