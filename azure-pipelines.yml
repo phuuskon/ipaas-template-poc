@@ -55,12 +55,12 @@ stages :
                 az deployment group create -f $(System.DefaultWorkingDirectory)/bicep-files/ipaas-infra.json -g rg-bicep-poc
 
           - task: ARM Outputs@6
-          displayName: 'Get infra deployment outputs'
-          inputs:
-            ConnectedServiceNameSelector: 'ConnectedServiceNameARM'
-            ConnectedServiceNameARM: 'sp-bicep-deploy'
-            resourceGroupName: 'rg-bicep-poc'
-            whenLastDeploymentIsFailed: 'fail'
+            displayName: 'Get infra deployment outputs'
+            inputs:
+              ConnectedServiceNameSelector: 'ConnectedServiceNameARM'
+              ConnectedServiceNameARM: 'sp-bicep-deploy'
+              resourceGroupName: 'rg-bicep-poc'
+              whenLastDeploymentIsFailed: 'fail'
 
           - task: Bash@3
             displayName: 'Build systems template'
