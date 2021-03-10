@@ -79,7 +79,7 @@ stages :
               addSpnToEnvironment: true
               inlineScript: |
                 #!/bin/bash
-                az deployment group validate -f $(System.DefaultWorkingDirectory)/bicep-files/ipaas-connections.json -g rg-bicep-poc -p "{ \"logicapp_si_tenantid\": \"\${{ logicapp_si_tenantid }}\", \"logicapp_si_objectid\": \"\${{ logicapp_si_objectid }}\"  }"
+                az deployment group validate -f $(System.DefaultWorkingDirectory)/bicep-files/ipaas-connections.json -g rg-bicep-poc -p "{ \"logicapp_si_tenantid\": \"\$(logicapp_si_tenantid)\", \"logicapp_si_objectid\": \"\$(logicapp_si_objectid)\"  }"
 
           - task: AzureCLI@2
             displayName: 'Deploy systems template'
@@ -90,7 +90,7 @@ stages :
               addSpnToEnvironment: true
               inlineScript: |
                 #!/bin/bash
-                az deployment group create -f $(System.DefaultWorkingDirectory)/bicep-files/ipaas-connections.json -g rg-bicep-poc -p "{ \"logicapp_si_tenantid\": \"\${{ logicapp_si_tenantid }}\", \"logicapp_si_objectid\": \"\${{ logicapp_si_objectid }}\"  }"
+                az deployment group create -f $(System.DefaultWorkingDirectory)/bicep-files/ipaas-connections.json -g rg-bicep-poc -p "{ \"logicapp_si_tenantid\": \"\$(logicapp_si_tenantid)\", \"logicapp_si_objectid\": \"\$(logicapp_si_objectid)\"  }"
       
           - task: AzurePowerShell@5
             displayName: 'Generate connections file'
