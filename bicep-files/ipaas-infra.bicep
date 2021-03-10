@@ -198,6 +198,9 @@ resource sitehostname 'Microsoft.Web/sites/hostNameBindings@2020-06-01' = {
   }
 }
 
+
 output logicapp_name string = site_name
 output logicapp_si_tenantid string = subscription().tenantId
 output logicapp_si_objectid string = site.identity.principalId 
+output servicebus_name string = serviceBus.name
+

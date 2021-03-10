@@ -2,6 +2,7 @@ param location string = 'westeurope'
 param sa_name string = 'stelisaipaassystem'
 param logicapp_si_tenantid string
 param logicapp_si_objectid string
+param servicebus_name string
 
 resource storageAccount 'Microsoft.Storage/storageAccounts@2019-06-01' = {
   name: sa_name
@@ -30,6 +31,35 @@ resource storageConnection 'Microsoft.Web/connections@2016-06-01' = {
 
 resource stConnAccessPolicies 'Microsoft.Web/connections/accessPolicies@2016-06-01' = {
   name: 'azureblob/${logicapp_si_objectid}'
+  location: location
+  properties: {
+    principal: {
+      type: 'ActiveDirectory'
+      identity: {
+        tenantId: '${logicapp_si_tenantid}'
+        objectId: '${logicapp_si_objectid}'
+      }
+    }
+  }
+}
+
+resource servicebusConnection 'Microsoft.Web/connections@2016-06-01' = {
+  name: 'servicebus'
+  kind: 'V2'
+  location: location
+  properties: {
+    displayName: 'sbrouter'
+    parameterValues: {
+      connectionString: '${listKeys(resourceId('Microsoft.ServiceBus/namespaces/authorizationRules',servicebus_name,'RootManageSharedAccessKey'), '2019-06-01').primaryConnectionString}'
+    }
+    api: {
+      id: '/subscriptions/${subscription().subscriptionId}/providers/Microsoft.Web/locations/${location}/managedApis/servicebus'
+    }
+  }
+}
+
+resource sbConnAccessPolicies 'Microsoft.Web/connections/accessPolicies@2016-06-01' = {
+  name: 'servicebus/${logicapp_si_objectid}'
   location: location
   properties: {
     principal: {
