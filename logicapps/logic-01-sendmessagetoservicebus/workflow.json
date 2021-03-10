@@ -1,0 +1,63 @@
+{
+    "definition": {
+        "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+        "actions": {
+            "Response": {
+                "type": "Response",
+                "kind": "http",
+                "inputs": {
+                    "statusCode": 200
+                },
+                "runAfter": {
+                    "Send_Message": [
+                        "Succeeded"
+                    ]
+                }
+            },
+            "Send_Message": {
+                "type": "ServiceProvider",
+                "inputs": {
+                    "parameters": {
+                        "entityName": "01-testtopic",
+                        "message": {
+                            "contentData": "@triggerBody()"
+                        }
+                    },
+                    "serviceProviderConfiguration": {
+                        "connectionName": "serviceBus",
+                        "operationId": "sendMessage",
+                        "serviceProviderId": "/serviceProviders/serviceBus"
+                    }
+                },
+                "runAfter": {}
+            }
+        },
+        "triggers": {
+            "manual": {
+                "type": "Request",
+                "kind": "Http",
+                "inputs": {
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "msgid": {
+                                "type": "string"
+                            },
+                            "msgdata": {
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "msgid",
+                            "msgdata"
+                        ]
+                    }
+                },
+                "operationOptions": "EnableSchemaValidation"
+            }
+        },
+        "contentVersion": "1.0.0.0",
+        "outputs": {}
+    },
+    "kind": "Stateful"
+}

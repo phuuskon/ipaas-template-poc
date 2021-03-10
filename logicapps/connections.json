@@ -1,0 +1,43 @@
+{
+  "managedApiConnections": {
+    "servicebus": {
+      "api": {
+        "id": "/subscriptions/1ecae47b-0a6b-40f0-babe-0fd6c5aa941f/providers/Microsoft.Web/locations/westeurope/managedApis/servicebus"
+      },
+      "connection": {
+        "id": "/subscriptions/1ecae47b-0a6b-40f0-babe-0fd6c5aa941f/resourceGroups/rg-bicep-poc/providers/Microsoft.Web/connections/servicebus"
+      },
+      "connectionRuntimeUrl": "https://448e0b3fe85cfa98.08.common.logic-westeurope.azure-apihub.net/apim/servicebus/22e745dbebd44fb2b5dcc335a965c612/",
+      "authentication": {
+        "type": "Raw",
+        "scheme": "Key",
+        "parameter": "@appsetting('servicebus-connectionKey')"
+      }
+    },
+    "azureblob": {
+      "api": {
+        "id": "/subscriptions/1ecae47b-0a6b-40f0-babe-0fd6c5aa941f/providers/Microsoft.Web/locations/westeurope/managedApis/azureblob"
+      },
+      "connection": {
+        "id": "/subscriptions/1ecae47b-0a6b-40f0-babe-0fd6c5aa941f/resourceGroups/rg-bicep-poc/providers/Microsoft.Web/connections/azureblob"
+      },
+      "connectionRuntimeUrl": "https://448e0b3fe85cfa98.08.common.logic-westeurope.azure-apihub.net/apim/azureblob/ef54d47ac6424b04a7846fdd9ec25a5b/",
+      "authentication": {
+        "type": "Raw",
+        "scheme": "Key",
+        "parameter": "@appsetting('azureblob-connectionKey')"
+      }
+    }
+  },
+  "serviceProviderConnections": {
+    "serviceBus": {
+      "parameterValues": {
+        "connectionString": "@appsetting('serviceBus-connectionString')"
+      },
+      "serviceProvider": {
+        "id": "/serviceProviders/serviceBus"
+      },
+      "displayName": "conn-servicebus"
+    }
+  }
+}

@@ -102,9 +102,48 @@ stages :
                 -resourceGroup rg-bicep-poc `
                 -outputLocation $(System.DefaultWorkingDirectory)/connections.json
               azurePowerShellVersion: 'LatestVersion'
+
+          - task: CopyFiles@2
+            displayName: 'Create project folder'
+            inputs:
+              SourceFolder: '$(System.DefaultWorkingDirectory)'
+              Contents: |
+                logicapps/host.json
+                logicapps/proxies.json
+                connections.json
+                logicapps/logic-01-01-messagetoblob/**
+                logicapps/logic-01-sendmessagetoservicebus/**
+              TargetFolder: 'project_output'
+
+          - task: ArchiveFiles@2
+            displayName: 'Create project zip'
+            inputs:
+              rootFolderOrFile: '$(System.DefaultWorkingDirectory)/project_output'
+              includeRootFolder: false
+              archiveType: 'zip'
+              archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+              replaceExistingArchive: true
+
+          - task: PublishPipelineArtifact@1
+            displayName: 'Publish project zip artifact'
+            inputs:
+              targetPath: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+              artifact: '$(logicAppCIArtifactName)'
+              publishLocation: 'pipeline'
               
           - task: PublishBuildArtifacts@1
             inputs:
               PathtoPublish: '$(System.DefaultWorkingDirectory)'
               ArtifactName: 'drop'
               publishLocation: 'Container'
+
+          - task: AzureFunctionApp@1
+            displayName: 'Deploy logic app workflows'
+            inputs:
+              azureSubscription: 'sp-bicep-deploy'
+              appType: 'functionApp'
+              appName: 'ph-bicep-poc-app'
+              package: '$(Pipeline.Workspace)/cipipeline/$(logicAppCIArtifactName)/$(resources.pipeline.cipipeline.runID).zip'
+              deploymentMethod: 'zipDeploy'
+
+          
