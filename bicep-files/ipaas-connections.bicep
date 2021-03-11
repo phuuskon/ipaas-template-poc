@@ -13,6 +13,10 @@ resource storageAccount 'Microsoft.Storage/storageAccounts@2019-06-01' = {
   }
 }
 
+resource stgContainer 'Microsoft.Storage/storageAccounts/blobServices/containers@2019-06-01' = {
+  name: '${sa_name}/default/01-messages'
+}
+
 resource storageConnection 'Microsoft.Web/connections@2016-06-01' = {
   name: 'azureblob'
   kind: 'V2'
