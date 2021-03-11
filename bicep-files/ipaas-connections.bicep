@@ -34,6 +34,9 @@ resource storageConnection 'Microsoft.Web/connections@2016-06-01' = {
       id: '/subscriptions/${subscription().subscriptionId}/providers/Microsoft.Web/locations/${location}/managedApis/azureblob'
     }
   }
+  dependsOn: [
+    storageAccount
+  ]
 }
 
 resource stConnAccessPolicies 'Microsoft.Web/connections/accessPolicies@2016-06-01' = {
@@ -48,6 +51,9 @@ resource stConnAccessPolicies 'Microsoft.Web/connections/accessPolicies@2016-06-
       }
     }
   }
+  dependsOn: [
+    storageConnection
+  ]
 }
 
 resource servicebusConnection 'Microsoft.Web/connections@2016-06-01' = {
