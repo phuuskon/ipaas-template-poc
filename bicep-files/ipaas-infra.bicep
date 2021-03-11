@@ -41,10 +41,16 @@ resource serviceBus 'Microsoft.ServiceBus/namespaces@2017-04-01' = {
 
 resource sbTopic 'Microsoft.ServiceBus/namespaces/topics@2017-04-01' = {
   name: '${sb_name}/01-testtopic'
+  dependsOn: [
+    serviceBus
+  ]
 }
 
 resource sbTopicSub 'Microsoft.ServiceBus/namespaces/topics/subscriptions@2017-04-01' = {
   name: '${sb_name}/01-testtopic/01-01-testsub'
+  dependsOn: [
+    sbTopic
+  ]
 }
 
 resource serverFarm 'Microsoft.Web/serverfarms@2020-06-01' = {
