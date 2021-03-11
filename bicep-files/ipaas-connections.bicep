@@ -55,17 +55,3 @@ resource stConnAccessPolicies 'Microsoft.Web/connections/accessPolicies@2016-06-
     storageConnection
   ]
 }
-
-resource servicebusConnection 'Microsoft.Web/connections@2016-06-01' = {
-  name: 'servicebus'
-  location: location
-  properties: {
-    displayName: 'sbrouter'
-    parameterValues: {
-      connectionString: '${listKeys(resourceId('Microsoft.ServiceBus/namespaces/authorizationRules',servicebus_name,'RootManageSharedAccessKey'), '2015-08-01').primaryConnectionString}'
-    }
-    api: {
-      id: '/subscriptions/${subscription().subscriptionId}/providers/Microsoft.Web/locations/${location}/managedApis/servicebus'
-    }
-  }
-}

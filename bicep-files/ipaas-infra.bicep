@@ -83,6 +83,10 @@ resource site 'Microsoft.Web/sites@2020-06-01' = {
     siteConfig: {
       appSettings: [
         {
+          name: 'APP_KIND'
+          value: 'workflowapp'
+        }
+        {
           name: 'AzureFunctionsJobHost__extensionBundle__id'
           value: 'Microsoft.Azure.Functions.ExtensionBundle.Workflows'
         }
@@ -116,6 +120,7 @@ resource site 'Microsoft.Web/sites@2020-06-01' = {
         }
       ]
     }
+    clientAffinityEnabled: true
   } 
 }
 
