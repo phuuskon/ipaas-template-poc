@@ -118,13 +118,18 @@ stages :
             inputs:
               SourceFolder: '$(System.DefaultWorkingDirectory)'
               Contents: |
-                logicapps/host.json
-                logicapps/proxies.json
                 connections.json
-                logicapps/logic-01-01-messagetoblob/**
-                logicapps/logic-01-sendmessagetoservicebus/**
               TargetFolder: 'project_output'
-              flattenFolders: true
+
+          - task: CopyFiles@2
+            displayName: 'Copy workflows to project folder'
+              SourceFolder: '$(System.DefaultWorkingDirectory)/logicapps'
+              Contents: |
+                host.json
+                proxies.json
+                logic-01-01-messagetoblob/**
+                logic-01-sendmessagetoservicebus/**
+              TargetFolder: 'project_output'
 
           - task: ArchiveFiles@2
             displayName: 'Create project zip'
