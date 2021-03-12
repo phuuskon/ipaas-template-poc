@@ -124,6 +124,7 @@ stages :
                 logicapps/logic-01-01-messagetoblob/**
                 logicapps/logic-01-sendmessagetoservicebus/**
               TargetFolder: 'project_output'
+              flattenFolders: true
 
           - task: ArchiveFiles@2
             displayName: 'Create project zip'
